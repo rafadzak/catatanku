@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Lexend%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+    <title>Daftar Absensi</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+      body { font-family: Lexend, "Noto Sans", sans-serif; }
+    </style>
+    <script>
+      function hapusAbsensi(index) {
+        const daftarAbsensi = JSON.parse(localStorage.getItem('daftarAbsensi')) || [];
+        if (confirm('Yakin ingin menghapus data ini?')) {
+          daftarAbsensi.splice(index, 1);
+          localStorage.setItem('daftarAbsensi', JSON.stringify(daftarAbsensi));
+          location.reload(); // Refresh halaman untuk update tabel
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const daftarAbsensi = JSON.parse(localStorage.getItem('daftarAbsensi')) || [];
+        const tbody = document.getElementById('tbody-absensi');
+        if (daftarAbsensi.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" class="text-center">Belum ada data absensi.</td></tr>';
+        } else {
+          daftarAbsensi.forEach((item, index) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td class="border px-4 py-2">${index + 1}</td>
+              <td class="border px-4 py-2">${item.nama}</td>
+              <td class="border px-4 py-2">${item.kelas}</td>
+              <td class="border px-4 py-2">${item.kegiatan}</td>
+              <td class="border px-4 py-2">${item.waktu}</td>
+              <td class="border px-4 py-2 text-center">
+                <button onclick="hapusAbsensi(${index})" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700">Hapus</button>
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      });
+    </script>
+  </head>
+  <body class="bg-slate-50 min-h-screen p-8">
+    <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
+      <h2 class="text-2xl font-bold text-[#0d151c] mb-6">Daftar Absensi</h2>
+      <table class="min-w-full border-collapse border border-slate-300">
+        <thead>
+          <tr>
+            <th class="border px-4 py-2">No</th>
+            <th class="border px-4 py-2">Nama</th>
+            <th class="border px-4 py-2">Kelas</th>
+            <th class="border px-4 py-2">Kegiatan</th>
+            <th class="border px-4 py-2">Waktu</th>
+            <th class="border px-4 py-2">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tbody-absensi">
+          <!-- Data absensi akan muncul di sini -->
+        </tbody>
+      </table>
+      <button onclick="window.location.href='absensi.html'" class="mt-6 px-4 py-2 bg-[#2094f3] text-white rounded hover:bg-[#0d151c]">Kembali ke Form Absensi</button>
+    </div>
+  </body>
+</html> 

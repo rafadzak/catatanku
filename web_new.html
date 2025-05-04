@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CatatanKu - Landing Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .btn-zoom {
+      transition: transform 0.18s;
+    }
+    .btn-zoom.active {
+      transform: scale(1.1);
+    }
+    body.dark {
+      background: linear-gradient(135deg, #232526 0%, #414345 100%) !important;
+    }
+    body.dark, body.dark * {
+      color: #f3f4f6 !important;
+      border-color: #444 !important;
+    }
+    body.dark .bg-white, body.dark .bg-yellow-100 {
+      background-color: #2d2d2d !important;
+    }
+    body.dark .bg-yellow-400 {
+      background-color: #fbbf24 !important;
+      color: #232526 !important;
+    }
+    body.dark .bg-teal-500 {
+      background-color: #14b8a6 !important;
+    }
+    body.dark .bg-gray-200 {
+      background-color: #444 !important;
+      color: #f3f4f6 !important;
+    }
+    body.dark .text-teal-700, body.dark .text-teal-800 {
+      color: #5eead4 !important;
+    }
+    body.dark .text-gray-700, body.dark .text-gray-500 {
+      color: #d1d5db !important;
+    }
+    body.dark .shadow, body.dark .shadow-lg {
+      box-shadow: 0 4px 24px rgba(0,0,0,0.7) !important;
+    }
+    body.dark .bg-white {
+      background-color: #232526 !important;
+      color: #5eead4 !important;
+      border-color: #5eead4 !important;
+    }
+    body.dark .hover\:bg-teal-50:hover {
+      background-color: #333 !important;
+    }
+    .animated-btn {
+      transition: 
+        transform 0.15s cubic-bezier(.4,2,.6,1), 
+        box-shadow 0.15s, 
+        background 0.2s, 
+        color 0.2s;
+      will-change: transform;
+      position: relative;
+      overflow: hidden;
+    }
+    .animated-btn:active {
+      transform: scale(0.95) rotate(-2deg);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .animated-btn::after {
+      content: "";
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 0; height: 0;
+      background: rgba(20,184,166,0.15);
+      border-radius: 100%;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s, opacity 0.3s;
+      opacity: 0;
+      z-index: 1;
+    }
+    .animated-btn:active::after {
+      width: 200%;
+      height: 200%;
+      opacity: 1;
+    }
+    .animated-btn:hover {
+      transform: scale(1.05) rotate(1deg);
+      box-shadow: 0 8px 32px rgba(20,184,166,0.15), 0 1.5px 8px rgba(0,0,0,0.08);
+      background: linear-gradient(90deg, #fbbf24 0%, #14b8a6 100%);
+      color: #fff !important;
+    }
+
+    /* Style untuk logo */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .logo-container:hover {
+      transform: scale(1.05);
+    }
+
+    .logo-svg {
+      width: 40px;
+      height: 40px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo-svg:hover {
+      transform: rotate(15deg);
+    }
+
+    .logo-text {
+      font-weight: bold;
+      font-size: 1.25rem;
+      background: linear-gradient(90deg, #14b8a6, #fbbf24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: all 0.3s ease;
+    }
+
+    .dark .logo-text {
+      background: linear-gradient(90deg, #5eead4, #fbbf24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Animasi untuk tombol tema */
+    .theme-btn {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .theme-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, #14b8a6, #fbbf24);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1;
+    }
+
+    .theme-btn:hover::before {
+      opacity: 0.1;
+    }
+
+    .theme-btn:active {
+      transform: scale(0.95) rotate(180deg);
+    }
+
+    .theme-icon {
+      position: relative;
+      z-index: 2;
+      transition: transform 0.5s ease;
+    }
+
+    .theme-btn:active .theme-icon {
+      transform: rotate(360deg);
+    }
+
+    /* Animasi transisi tema */
+    body {
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    .dark {
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    /* Animasi untuk elemen yang berubah tema */
+    .theme-transition {
+      transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+    }
+
+    .theme-fade {
+      transition: background 0.5s, color 0.5s, border-color 0.5s, opacity 0.4s;
+      opacity: 1;
+    }
+    .theme-fade.theme-fading {
+      opacity: 0.4;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-green-100 via-yellow-50 to-teal-200 flex flex-col theme-transition theme-fade">
+  <header class="p-6 flex justify-between items-center z-10 relative">
+    <div class="logo-container">
+      <svg class="logo-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z" fill="#14b8a6"/>
+        <path d="M12 2L19.5 20.29l-.71.71L12 18l-6.79 3-.71-.71z" fill="#fbbf24"/>
+        <circle cx="12" cy="12" r="4" fill="#14b8a6"/>
+      </svg>
+      <span class="logo-text">CatatanKu</span>
+    </div>
+    <div class="flex items-center gap-4">
+      <button id="toggle-theme" class="theme-btn animated-btn bg-gray-200 text-teal-700 px-3 py-2 rounded hover:bg-gray-300 transition font-semibold shadow" title="Ganti Tema">
+        <span class="theme-icon">🌙</span>
+      </button>
+      <a href="catatan.html" class="animated-btn bg-white text-teal-700 border-2 border-teal-500 px-4 py-2 rounded-lg font-semibold shadow hover:bg-teal-50 transition">
+        Mulai Mencatat
+      </a>
+    </div>
+  </header>
+  <main class="flex-1 flex flex-col items-center justify-center text-center px-4 z-10 relative">
+    <h2 class="text-4xl md:text-5xl font-extrabold text-teal-800 mb-4">
+      Simpan Ide & Catatanmu <span class="text-yellow-500">Dengan Mudah</span>
+    </h2>
+    <p class="text-lg md:text-xl text-gray-700 mb-8 max-w-xl">
+      CatatanKu adalah aplikasi web sederhana untuk menyimpan, mengelola, dan mengingat semua ide, tugas, dan inspirasi kamu. Gratis, mudah, dan aman!
+    </p>
+    <a id="coba-sekarang-btn" href="catatan.html" class="animated-btn btn-zoom bg-yellow-400 text-teal-900 px-8 py-3 rounded-full font-bold text-lg shadow-lg hover:bg-yellow-300 transition">
+      Coba Sekarang
+    </a>
+  </main>
+  <div class="flex justify-center mt-8 z-10 relative">
+    <div class="bg-white rounded-xl shadow p-4">
+      <div id="calendar" class="text-center"></div>
+      <div id="calendar-note-form" class="mt-4 hidden">
+        <div class="mb-2 font-semibold text-teal-700" id="selected-date-label"></div>
+        <textarea id="calendar-note-input" class="w-full border rounded px-3 py-2 mb-2 text-gray-900 dark:text-white bg-white dark:bg-[#232526]" placeholder="Tulis catatan untuk tanggal ini..."></textarea>
+        <button id="save-calendar-note" class="animated-btn my-btn bg-teal-500 hover:bg-teal-600 w-full">Simpan Catatan</button>
+      </div>
+      <div id="calendar-note-display" class="mt-4"></div>
+    </div>
+  </div>
+  <footer class="text-center text-gray-500 py-4 z-10 relative">
+    &copy; 2025 CatatanKu. Dibuat dengan ❤️.
+  </footer>
+  <script>
+    // Animasi tombol "Coba Sekarang"
+    const cobaBtn = document.getElementById('coba-sekarang-btn');
+    if (cobaBtn) {
+      cobaBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        cobaBtn.classList.add('active');
+        setTimeout(() => {
+          cobaBtn.classList.remove('active');
+          window.location.href = cobaBtn.href;
+        }, 180);
+      });
+    }
+
+    // Fitur tema dengan animasi
+    const themeBtn = document.getElementById('toggle-theme');
+    const body = document.body;
+    const themeIcon = themeBtn.querySelector('.theme-icon');
+    
+    // Cek tema tersimpan
+    if (localStorage.getItem('theme') === 'dark') {
+      body.classList.add('dark');
+      themeIcon.textContent = '☀️';
+    }
+    
+    if (themeBtn) {
+      themeBtn.addEventListener('click', function() {
+        // Animasi tombol
+        themeBtn.classList.add('active');
+        // Tambahkan efek fading pada body
+        body.classList.add('theme-fading');
+        setTimeout(() => {
+          themeBtn.classList.remove('active');
+          // Toggle tema dengan animasi
+          body.classList.toggle('dark');
+          if (body.classList.contains('dark')) {
+            localStorage.setItem('theme', 'dark');
+            themeIcon.textContent = '☀️';
+          } else {
+            localStorage.setItem('theme', 'light');
+            themeIcon.textContent = '🌙';
+          }
+          // Hapus efek fading setelah transisi selesai
+          setTimeout(() => {
+            body.classList.remove('theme-fading');
+          }, 400);
+        }, 150);
+      });
+    }
+
+    // Kalender Interaktif dengan Catatan
+    function getCalendarNotes() {
+      return JSON.parse(localStorage.getItem('calendarNotes') || '{}');
+    }
+    function setCalendarNotes(notes) {
+      localStorage.setItem('calendarNotes', JSON.stringify(notes));
+    }
+
+    function renderCalendar() {
+      const calendar = document.getElementById('calendar');
+      if (!calendar) return;
+      const now = new Date();
+      const monthNames = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+      ];
+      const days = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const firstDay = new Date(year, month, 1).getDay();
+      const lastDate = new Date(year, month + 1, 0).getDate();
+      const today = now.getDate();
+      const notes = getCalendarNotes();
+
+      let html = `<div class="font-bold text-lg mb-2">${monthNames[month]} ${year}</div>`;
+      html += '<div class="grid grid-cols-7 gap-1 mb-1">';
+      days.forEach(d => html += `<div class="font-semibold text-teal-700">${d}</div>`);
+      html += '</div><div class="grid grid-cols-7 gap-1">';
+      for (let i = 0; i < firstDay; i++) html += `<div></div>`;
+      for (let d = 1; d <= lastDate; d++) {
+        const dateKey = `${year}-${month + 1}-${d}`;
+        const isToday = d === today;
+        const hasNote = notes[dateKey];
+        html += `<button
+          class="py-1 w-full rounded focus:outline-none transition
+            ${isToday ? 'bg-yellow-300 text-teal-900 font-bold' : ''}
+            ${hasNote ? 'bg-teal-200 text-teal-900 font-bold border-2 border-teal-400' : 'text-gray-700 hover:bg-teal-50'}
+          "
+          data-date="${dateKey}"
+          >${d}</button>`;
+      }
+      html += '</div>';
+      calendar.innerHTML = html;
+
+      // Tambahkan event listener untuk setiap tanggal
+      calendar.querySelectorAll('button[data-date]').forEach(btn => {
+        btn.addEventListener('click', function() {
+          showCalendarNoteForm(this.getAttribute('data-date'));
+        });
+      });
+      // Sembunyikan form & display catatan saat render ulang
+      document.getElementById('calendar-note-form').classList.add('hidden');
+      document.getElementById('calendar-note-display').innerHTML = '';
+    }
+
+    function showCalendarNoteForm(dateKey) {
+      const form = document.getElementById('calendar-note-form');
+      const label = document.getElementById('selected-date-label');
+      const input = document.getElementById('calendar-note-input');
+      const saveBtn = document.getElementById('save-calendar-note');
+      const display = document.getElementById('calendar-note-display');
+      const notes = getCalendarNotes();
+
+      // Tampilkan form
+      form.classList.remove('hidden');
+      label.textContent = `Catatan untuk ${formatDate(dateKey)}`;
+      input.value = notes[dateKey] || '';
+      display.innerHTML = notes[dateKey]
+        ? `<div class="mt-2 p-2 bg-teal-50 rounded text-teal-800 text-left"><b>Catatan:</b><br>${notes[dateKey]}</div>`
+        : '';
+
+      saveBtn.onclick = function() {
+        const val = input.value.trim();
+        if (val) {
+          notes[dateKey] = val;
+        } else {
+          delete notes[dateKey];
+        }
+        setCalendarNotes(notes);
+        renderCalendar();
+        showCalendarNoteForm(dateKey);
+      };
+    }
+
+    function formatDate(dateKey) {
+      const [y, m, d] = dateKey.split('-');
+      return `${d} / ${m} / ${y}`;
+    }
+
+    renderCalendar();
+  </script>
+</body>
+</html>
